@@ -54,33 +54,33 @@ const DEFAULT_GITHUB_API_ENDPOINT = "https://api.github.com"
  * @returns {Promise<ListReleasesItem[]>}
  */
 export async function listReleases(repository, page = 1, token = undefined, endpoint = DEFAULT_GITHUB_API_ENDPOINT) {
-  const url = new URL(`${endpoint}/repos/${repository}/releases`);
-  url.searchParams.set("per_page", "100");
-  url.searchParams.set("page", page);
+    const url = new URL(`${endpoint}/repos/${repository}/releases`);
+    url.searchParams.set("per_page", "100");
+    url.searchParams.set("page", page);
 
-  const headers = {
-    "Accept": "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2026-03-10",
-    "User-Agent": "obs-backgroundremoval-document-generator"
-  };
+    const headers = {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2026-03-10",
+        "User-Agent": "obs-backgroundremoval-document-generator"
+    };
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
 
-  const response = await fetch(url, { headers });
-  if (!response.ok) {
-    throw new Error(
-      `List releases API returned ${response.status} ${response.statusText}`,
-    );
-  }
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+        throw new Error(
+            `List releases API returned ${response.status} ${response.statusText}`,
+        );
+    }
 
-  const releases = await response.json();
-  if (!Array.isArray(releases)) {
-    throw new TypeError("List releases API did not return an array");
-  }
+    const releases = await response.json();
+    if (!Array.isArray(releases)) {
+        throw new TypeError("List releases API did not return an array");
+    }
 
-  return releases;
+    return releases;
 }
 
 /**
@@ -90,30 +90,30 @@ export async function listReleases(repository, page = 1, token = undefined, endp
  * @returns {Promise<ListReleasesItem>}
  */
 export async function getLatestRelease(repository, token = undefined, endpoint = DEFAULT_GITHUB_API_ENDPOINT) {
-  const url = new URL(`${endpoint}/repos/${repository}/releases/latest`);
-  const headers = {
-    "Accept": "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2026-03-10",
-    "User-Agent": "obs-backgroundremoval-document-generator"
-  };
+    const url = new URL(`${endpoint}/repos/${repository}/releases/latest`);
+    const headers = {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2026-03-10",
+        "User-Agent": "obs-backgroundremoval-document-generator"
+    };
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
 
-  const response = await fetch(url, { headers });
-  if (!response.ok) {
-    throw new Error(
-      `Get latest release API returned ${response.status} ${response.statusText}`,
-    );
-  }
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+        throw new Error(
+            `Get latest release API returned ${response.status} ${response.statusText}`,
+        );
+    }
 
-  const release = await response.json();
-  if (!release || typeof release !== "object" || Array.isArray(release)) {
-    throw new TypeError("Get latest release API did not return an object");
-  }
+    const release = await response.json();
+    if (!release || typeof release !== "object" || Array.isArray(release)) {
+        throw new TypeError("Get latest release API did not return an object");
+    }
 
-  return release;
+    return release;
 }
 
 /**
@@ -130,77 +130,77 @@ export async function getLatestRelease(repository, token = undefined, endpoint =
  * @returns {Promise<ListStargazersItem[]>}
  */
 export async function listStargazers(
-  repository,
-  page = 1,
-  token = undefined,
-  endpoint = DEFAULT_GITHUB_API_ENDPOINT,
+    repository,
+    page = 1,
+    token = undefined,
+    endpoint = DEFAULT_GITHUB_API_ENDPOINT,
 ) {
-  const url = new URL(`${endpoint}/repos/${repository}/stargazers`);
-  url.searchParams.set("per_page", "100");
-  url.searchParams.set("page", page);
+    const url = new URL(`${endpoint}/repos/${repository}/stargazers`);
+    url.searchParams.set("per_page", "100");
+    url.searchParams.set("page", page);
 
-  const headers = {
-    "Accept": "application/vnd.github.star+json",
-    "X-GitHub-Api-Version": "2026-03-10",
-    "User-Agent": "obs-backgroundremoval-document-generator"
-  };
+    const headers = {
+        "Accept": "application/vnd.github.star+json",
+        "X-GitHub-Api-Version": "2026-03-10",
+        "User-Agent": "obs-backgroundremoval-document-generator"
+    };
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
 
-  const response = await fetch(url, { headers });
-  if (!response.ok) {
-    throw new Error(
-      `List stargazers API returned ${response.status} ${response.statusText}`,
-    );
-  }
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+        throw new Error(
+            `List stargazers API returned ${response.status} ${response.statusText}`,
+        );
+    }
 
-  const stargazers = await response.json();
-  if (!Array.isArray(stargazers)) {
-    throw new TypeError("List stargazers API did not return an array");
-  }
+    const stargazers = await response.json();
+    if (!Array.isArray(stargazers)) {
+        throw new TypeError("List stargazers API did not return an array");
+    }
 
-  return stargazers;
+    return stargazers;
 }
 
 export class GitHubClient {
-  /**
-   * @param {string} repository
-   * @param {string} [token]
-   * @param {string} [endpoint]
-   */
-  constructor(repository, token = process.env.GITHUB_TOKEN, endpoint = DEFAULT_GITHUB_API_ENDPOINT) {
-    /** @type {string} */
-    this.repository = repository;
+    /**
+     * @param {string} repository
+     * @param {string} [token]
+     * @param {string} [endpoint]
+     */
+    constructor(repository, token = process.env.GITHUB_TOKEN, endpoint = DEFAULT_GITHUB_API_ENDPOINT) {
+        /** @type {string} */
+        this.repository = repository;
 
-    /** @type {string} */
-    this.endpoint = endpoint;
+        /** @type {string} */
+        this.endpoint = endpoint;
 
-    /** @type {string|undefined} */
-    this.token = token;
-  }
+        /** @type {string|undefined} */
+        this.token = token;
+    }
 
-  /**
-   * @param {number} [page]
-   * @returns {Promise<ListReleasesItem[]>}
-   */
-  listReleases(page = 1) {
-    return listReleases(this.repository, page, this.token, this.endpoint);
-  }
+    /**
+     * @param {number} [page]
+     * @returns {Promise<ListReleasesItem[]>}
+     */
+    listReleases(page = 1) {
+        return listReleases(this.repository, page, this.token, this.endpoint);
+    }
 
-  /**
-   * @returns {Promise<ListReleasesItem>}
-   */
-  getLatestRelease() {
-    return getLatestRelease(this.repository, this.token, this.endpoint);
-  }
+    /**
+     * @returns {Promise<ListReleasesItem>}
+     */
+    getLatestRelease() {
+        return getLatestRelease(this.repository, this.token, this.endpoint);
+    }
 
-  /**
-   * @param {number} page
-   * @returns {Promise<ListStargazersItem[]>}
-   */
-  listStargazers(page = 1) {
-    return listStargazers(this.repository, page, this.token, this.endpoint);
-  }
+    /**
+     * @param {number} page
+     * @returns {Promise<ListStargazersItem[]>}
+     */
+    listStargazers(page = 1) {
+        return listStargazers(this.repository, page, this.token, this.endpoint);
+    }
 }
