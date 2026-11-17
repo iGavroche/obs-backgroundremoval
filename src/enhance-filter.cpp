@@ -73,7 +73,7 @@ obs_properties_t *enhance_filter_properties(void *data)
 #ifdef HAVE_ONNXRUNTIME_ROCM_EP
 	obs_property_list_add_string(p_use_gpu, obs_module_text("GPUROCM"), USEGPU_ROCM);
 #endif
-#ifdef HAVE_ONNXRUNTIME_MIGRAPHX_EP
+#ifdef HAVE_ONNXRUNTIME_MIGRAPHX_ANY_EP
 	obs_property_list_add_string(p_use_gpu, obs_module_text("GPUMIGRAPHX"), USEGPU_MIGRAPHX);
 #endif
 #ifdef HAVE_ONNXRUNTIME_TENSORRT_EP
@@ -319,7 +319,7 @@ void enhance_filter_video_render(void *data, gs_effect_t *_effect)
 	}
 
 	// Engage filter
-	if (!obs_source_process_filter_begin(tf->source, GS_RGBA, OBS_ALLOW_DIRECT_RENDERING)) {
+	if (!obs_source_process_filter_begin(tf->source, GS_RGBA, OBS_NO_DIRECT_RENDERING)) {
 		obs_source_skip_video_filter(tf->source);
 		return;
 	}
